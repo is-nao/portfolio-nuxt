@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     // '@nuxt/ui-pro',
     '@nuxt/ui',
-    // '@nuxt/content',
+    '@nuxt/content',
     '@nuxt/fonts',
     '@nuxt/icon',
     '@nuxt/image',
