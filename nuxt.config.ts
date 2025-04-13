@@ -25,6 +25,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    preset: 'cloudflare_pages',
     experimental: {
       // Enable Server API documentation within NuxtHub
       openAPI: true
