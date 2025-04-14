@@ -27,7 +27,7 @@ export default defineNuxtConfig({
   ssr: true,
   routeRules: {
     '/': { prerender: true }
-  }
+  },
 
   nitro: {
     preset: 'cloudflare_pages',
