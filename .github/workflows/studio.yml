@@ -59,7 +59,7 @@ jobs:
         run: ${{ steps.pkgman.outputs.package_manager }} install
 
       - name: Generate
-        run: npx nuxi build --preset cloudflare_pages
+        run: npx nuxi build --preset github_pages
         env:
           NUXT_CONTENT_PREVIEW_API: https://api.nuxt.studio
           
