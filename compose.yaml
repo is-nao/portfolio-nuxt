@@ -1,0 +1,12 @@
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: docker/nuxt.Dockerfile
+    volumes:
+      - .:/app:cached
+    ports:
+      - 3000:3000
+      - 4000:4000
+    tty: true
