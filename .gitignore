@@ -14,6 +14,9 @@ node_modules
 logs
 *.log
 
+# Skills (managed by skills.sh)
+.agents/skills/
+
 # Misc
 .DS_Store
 .fleet
