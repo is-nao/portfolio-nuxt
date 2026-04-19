@@ -29,7 +29,7 @@
 ## テスト
 
 - Unit: Vitest（`test/unit/**`）。Nuxt ランタイムが必要なテストは先頭に `// @vitest-environment nuxt` を付与
-- E2E: Playwright（`test/e2e/**`）。Phase 0 時点の `webServer` は `pnpm dev`、Phase 6 Deploy で Workers preview に切替予定
+- E2E: Playwright（`test/e2e/**`）。`pnpm build:node`（Nitro `node-server` preset）でビルド後、`pnpm start` で `.output/server/index.mjs` を Node 起動。本番 deploy 用の `cloudflare_module` ビルド (`pnpm build`) と使い分ける
 - Workers 互換: `@cloudflare/vitest-pool-workers`（Phase 6 で project 定義を追加予定）
 
 ## 開発フロー

@@ -14,10 +14,11 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   webServer: {
-    command: `pnpm dev --port ${PORT}`,
+    command: 'pnpm start',
+    env: { PORT: String(PORT) },
     url: BASE_URL,
     reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
+    timeout: 60_000,
     stdout: 'pipe',
     stderr: 'pipe',
   },

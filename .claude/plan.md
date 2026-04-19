@@ -135,7 +135,9 @@
 - [x] `compatibility_date` を作業日付に、`compatibility_flags=['nodejs_compat']`
 - [ ] `vite.esbuild` / `build.rollupOptions` 使用禁止ルールを CLAUDE.md 昇格時に明記
 
-**検証結果 (2026-04-19)**: `pnpm format:check` / `pnpm lint` / `pnpm typecheck` / `pnpm build` / `pnpm test:unit` / `pnpm exec playwright test --list` すべて ✅。ビルド出力 1.33 MB (gzip 414 kB)、Cloudflare Workers 互換 `.output/` 生成確認。サンプル E2E (`home.spec.ts`) は `webServer: pnpm dev` で起動し、Phase 6 Deploy 時に `wrangler dev` / preview に切り替え予定。
+**検証結果 (2026-04-19)**: `pnpm format:check` / `pnpm lint` / `pnpm typecheck` / `pnpm build` / `pnpm test:unit` / `pnpm exec playwright test --list` すべて ✅。ビルド出力 1.33 MB (gzip 414 kB)、Cloudflare Workers 互換 `.output/` 生成確認。
+
+**追補 (2026-04-20)**: 初回 push の CI で E2E job が `pnpm dev` の optimizeDeps 解決 hang により timeout。`nuxt preview` も ARM64 devcontainer 上の workerd が 99% CPU で応答せず不安定。E2E 専用ビルドを **Nitro `node-server` preset** に分岐して対処。`package.json` に `build:node` / `start` スクリプト追加、`playwright.config.ts` webServer を `pnpm start` に変更、CI e2e job に `pnpm build:node` ステップを追加。本番 deploy は従来通り `cloudflare_module`（ADR-001 不変）。
 
 **完了条件**: 空ページが Workers プレビューにデプロイでき、CI が全ステップ緑。
 

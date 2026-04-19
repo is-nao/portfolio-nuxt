@@ -61,6 +61,9 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 
+      - name: Build (node-server preset)
+        run: pnpm build:node
+
       - name: Run Playwright
         run: pnpm test:e2e
 
