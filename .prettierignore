@@ -1,0 +1,10 @@
+pnpm-lock.yaml
+.nuxt/
+.output/
+dist/
+node_modules/
+.data/
+coverage/
+.claude/
+.wrangler/
+public/

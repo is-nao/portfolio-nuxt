@@ -8,14 +8,10 @@ dist
 
 # Node dependencies
 node_modules
-.pnpm-store
 
 # Logs
 logs
 *.log
-
-# Skills (managed by skills.sh)
-.agents/skills/
 
 # Misc
 .DS_Store
@@ -26,3 +22,25 @@ logs
 .env
 .env.*
 !.env.example
+
+# Claude Code ローカル状態 (settings.json は commit 対象)
+.claude/settings.local.json
+
+# Skills (managed by skills.sh)
+.agents/skills/
+
+# pnpm
+.pnpm-store/
+
+# Wrangler / Cloudflare local state
+.wrangler/
+.dev.vars
+
+# Test artifacts
+coverage/
+playwright-report/
+test-results/
+.vitest-cache/
+
+# Editor / tooling caches
+.eslintcache
