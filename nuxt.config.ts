@@ -83,13 +83,9 @@ export default defineNuxtConfig({
     },
   },
 
-  // Hybrid prerender: 主要ページは静的配信、OG 画像 / sitemap / Studio preview は Worker で動的処理
+  // Hybrid prerender: about / resume / blog は各ページ実装後に追加予定
   routeRules: {
     '/': { prerender: true },
-    '/about': { prerender: true },
-    '/resume': { prerender: true },
-    '/blog': { prerender: true },
-    '/blog/**': { prerender: true },
   },
 
   // future: {
