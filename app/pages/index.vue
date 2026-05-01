@@ -159,7 +159,7 @@ const links = ref<ButtonProps[]>([
         <NuxtLink
           v-if="item.to"
           :to="item.to"
-          class="font-medium transition-colors hover:text-primary"
+          class="font-medium underline decoration-transparent transition-colors hover:text-primary hover:decoration-secondary"
         >
           {{ item.title }}
         </NuxtLink>

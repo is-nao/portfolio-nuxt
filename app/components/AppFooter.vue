@@ -13,6 +13,7 @@ const year = new Date().getFullYear()
         &copy; {{ year }} — Copyright <ULink
           to="/"
           active
+          class="underline decoration-transparent transition-colors hover:decoration-secondary"
         >naoki.dev</ULink>, All Rights reserved.
       </p>
     </template>
