@@ -1,0 +1,38 @@
+name: Naoki
+bio: |
+  I'm Naoki, a system engineer based in Tokyo, Japan.
+  I specialize in building web applications and websites using JavaScript and PHP.
+
+  I've procrastinated on building this website for years, but finally, it's here —
+  a little nook on the internet for me to share my experiments, projects, and thoughts on tech, design, and life.
+
+  During the day, I work as a developer at a system integrator, and at night or on weekends, I’m busy tinkering with various tools and apps I’m building.
+job: System Engineer
+countryCode: JP
+city: Tokyo
+birthYear: 1997
+
+links:
+  - icon: i-simple-icons-github
+    label: GitHub
+    url: https://github.com/is-nao/
+  - icon: i-simple-icons-x
+    label: X
+    url: https://x.com/is__nao/
+
+strengths:
+  - icon: i-lucide-layers
+    summary: summary
+    detail: |
+      detail
+education:
+  - name: ○○大学 ○○学部
+    date: 2009-04-01
+    event: 入学
+  - name: ○○大学 ○○学部
+    date: 2013-03-31
+    event: 卒業
+
+certifications:
+  - name: 基本情報技術者
+    date: 2012-06-01

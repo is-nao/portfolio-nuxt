@@ -1,0 +1,131 @@
+@import 'tailwindcss';
+@import '@nuxt/ui';
+
+@theme {
+  --color-turquoise-50: #e6f4f5;
+  --color-turquoise-100: #b1edef;
+  --color-turquoise-200: #96d1d3;
+  --color-turquoise-300: #7fbabc;
+  --color-turquoise-400: #2a6769;
+  --color-turquoise-500: #084f51;
+  --color-turquoise-600: #004b4d;
+  --color-turquoise-700: #003738;
+  --color-turquoise-800: #002021;
+  --color-turquoise-900: #001515;
+  --color-turquoise-950: #000a0a;
+
+  --color-gold-50: #fff8e0;
+  --color-gold-100: #ffe088;
+  --color-gold-200: #e9c349;
+  --color-gold-300: #d4af37;
+  --color-gold-400: #af8d11;
+  --color-gold-500: #574500;
+  --color-gold-600: #3c2f00;
+  --color-gold-700: #342800;
+  --color-gold-800: #241a00;
+  --color-gold-900: #1a1200;
+  --color-gold-950: #0d0900;
+}
+
+:root {
+  --ui-container: var(--container-5xl);
+
+  --ui-bg: #f5f5f5;
+  --ui-bg-muted: #ededeb;
+  --ui-bg-elevated: #ffffff;
+  --ui-bg-accented: #d8d6d2;
+  --ui-text: #1a1c1e;
+  --ui-text-muted: var(--ui-color-neutral-600);
+  --ui-text-dimmed: var(--ui-color-neutral-500);
+  --ui-border: var(--ui-color-neutral-300);
+  --ui-border-muted: var(--ui-color-neutral-200);
+  --ui-primary: var(--color-turquoise-600);
+  --ui-secondary: var(--color-gold-400);
+  --ui-radius: 0px;
+}
+
+.dark {
+  --ui-bg: #131313;
+  --ui-bg-muted: #1c1b1b;
+  --ui-bg-elevated: #1c1b1b;
+  --ui-bg-accented: #1e2829;
+  --ui-text: #e5e2e1;
+  --ui-text-muted: #bfc8c8;
+  --ui-text-dimmed: var(--ui-color-neutral-500);
+  --ui-border: #3f4849;
+  --ui-border-muted: var(--ui-color-neutral-800);
+  --ui-primary: var(--color-turquoise-300);
+  --ui-secondary: var(--color-gold-200);
+}
+
+@layer components {
+  .label-caps {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    line-height: 1;
+  }
+}
+
+/* unlayered: must override @layer utilities margin from app.config.ts prose elements */
+.prose > *:first-child {
+  margin-top: 0;
+}
+
+.prose > *:last-child {
+  margin-bottom: 0;
+}
+
+/*
+Shiki
+https://shiki.style/packages/transformers#transformernotationdiff
+*/
+.shiki {
+  span.line {
+    @apply block;
+
+    &.highlight,
+    &.diff {
+      @apply -mx-4 my-0 px-4 py-0;
+    }
+
+    &.highlight {
+      @apply bg-warning/10;
+    }
+
+    &.diff {
+      @apply relative;
+
+      &::before {
+        @apply absolute left-0 px-1;
+      }
+
+      &.add {
+        @apply bg-success/10;
+
+        &::before {
+          @apply text-success content-['+'];
+        }
+      }
+
+      &.remove {
+        @apply bg-(--ui-error)/10;
+
+        &::before {
+          @apply text-error content-['-'];
+        }
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

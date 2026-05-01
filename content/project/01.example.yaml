@@ -1,0 +1,46 @@
+companyId: 1
+name: サンプルプロジェクト
+description: |
+  プロジェクトの概要をここに書く。
+from: 2020-04-01
+to: 2021-09-30
+role: バックエンドエンジニア
+teamSize: 6
+achievements:
+  - description: |
+      achievements.description
+phases:
+  - 要件定義
+  - 基本設計
+  - 詳細設計
+  - 実装
+  - テスト
+  - 運用
+stack:
+  language:
+    - name: TypeScript
+      level: S
+      months: 18
+    - name: Go
+      level: A
+      months: 18
+  framework:
+    - name: Nuxt
+      level: A
+      months: 12
+  database:
+    - name: PostgreSQL
+      level: A
+      months: 18
+  os:
+    - name: Linux
+      level: A
+      months: 18
+  cloud:
+    - name: AWS
+      level: B
+      months: 18
+  other:
+    - name: Docker
+      level: A
+      months: 18

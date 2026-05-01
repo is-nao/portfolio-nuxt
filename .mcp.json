@@ -1,0 +1,26 @@
+{
+  "mcpServers": {
+    "nuxt": {
+      "type": "http",
+      "url": "https://nuxt.com/mcp"
+    },
+    "nuxt-ui": {
+      "type": "http",
+      "url": "https://ui.nuxt.com/mcp"
+    },
+    "nuxt-content": {
+      "type": "http",
+      "url": "https://content.nuxt.com/mcp"
+    },
+    "nuxt-studio": {
+      "type": "http",
+      "url": "https://nuxt.studio/mcp"
+    },
+    "serena": {
+      "type": "stdio",
+      "command": "serena",
+      "args": ["start-mcp-server", "--context", "claude-code", "--project", "/workspace"],
+      "env": {}
+    }
+  }
+}
