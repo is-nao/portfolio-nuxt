@@ -16,17 +16,24 @@ useSeoMeta({
   ogDescription: meta.description,
 })
 
-const { data: about } = await useAsyncData('about', () => queryCollection('about').first())
+// const { data: about } = await useAsyncData('about', () => queryCollection('about').first())
 
-const { data: timeline } = await useAsyncData('timeline', () => queryCollection('timeline').order('date', 'DESC').all())
+// const { data: timeline } = await useAsyncData('timeline', () => queryCollection('timeline').order('date', 'DESC').all())
 
-const { data: blog } = await useAsyncData('blog', () =>
-  queryCollection('blog')
+// const { data: blog } = await useAsyncData('blog', () =>
+//   queryCollection('blog')
+//     .select('path', 'title', 'description', 'createdAt')
+//     .where('draft', '=', false)
+//     .order('createdAt', 'DESC')
+//     .all(),
+// )
+const [{ data: about }, { data: timeline }, { data: blog }] = await Promise.all([
+  useAsyncData('about', () => queryCollection('about').first()),
+  useAsyncData('timeline', () => queryCollection('timeline').order('date', 'DESC').all()),
+  useAsyncData('timeline-blog', () => queryCollection('blog')
     .select('path', 'title', 'description', 'createdAt')
-    .where('draft', '=', false)
-    .order('createdAt', 'DESC')
-    .all(),
-)
+    .where('draft', '=', false).order('createdAt', 'DESC').all()),
+])
 
 type TimelineItem = TimelineItemBase & { to?: string }
 
@@ -61,7 +68,7 @@ const timelineItems = computed<TimelineItem[]>(() => {
     .map(({ sort, ...item }) => item)
 })
 
-const links: ButtonProps[] = [
+const links = ref<ButtonProps[]>([
   {
     label: 'About me',
     to: '/about',
@@ -76,7 +83,7 @@ const links: ButtonProps[] = [
     trailingIcon: 'i-lucide-arrow-right',
     ui: { base: 'border-2 border-secondary' },
   },
-]
+])
 </script>
 
 <template>

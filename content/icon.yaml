@@ -1,0 +1,68 @@
+language:
+  - name: i-simple-icons-typescript
+    labels:
+      - TypeScript
+      - ts
+  - name: i-simple-icons-javascript
+    labels:
+      - JavaScript
+      - js
+  - name: i-simple-icons-go
+    labels:
+      - Go
+      - Golang
+  - name: i-simple-icons-python
+    labels:
+      - Python
+framework:
+  - name: i-simple-icons-nuxt
+    labels:
+      - Nuxt
+      - Nuxt.js
+  - name: i-simple-icons-vuedotjs
+    labels:
+      - Vue
+      - Vue.js
+  - name: i-simple-icons-react
+    labels:
+      - React
+database:
+  - name: i-simple-icons-postgresql
+    labels:
+      - PostgreSQL
+      - Postgres
+  - name: i-simple-icons-mysql
+    labels:
+      - MySQL
+  - name: i-simple-icons-redis
+    labels:
+      - Redis
+os:
+  - name: i-simple-icons-linux
+    labels:
+      - Linux
+  - name: i-simple-icons-apple
+    labels:
+      - macOS
+      - OS X
+cloud:
+  - name: i-simple-icons-cloudflare
+    labels:
+      - Cloudflare
+      - Cloudflare Workers
+  - name: i-simple-icons-amazonwebservices
+    labels:
+      - AWS
+      - Amazon Web Services
+  - name: i-simple-icons-googlecloud
+    labels:
+      - GCP
+      - Google Cloud
+other:
+  - name: i-simple-icons-docker
+    labels:
+      - Docker
+  - name: i-simple-icons-git
+    labels:
+      - Git
+fallback: i-lucide-package
