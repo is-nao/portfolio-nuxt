@@ -1,8 +1,17 @@
-# 個人サイト 実装計画
+# 個人サイト Backlog
 
-最終更新: 2026-04-20
+最終更新: 2026-04-24
 
-本ドキュメントは**作業中の計画書**です。方針が固まり恒久化できる項目（コマンド・コーディング規約・アーキテクチャ原則）は、確定次第 `CLAUDE.md` に昇格させます。
+本ドキュメントは**作業中の backlog** です。Phase ごとのタスク・ADR・未決事項・追補ノートを集約し、方針が固まり恒久化できる項目（コマンド・コーディング規約・アーキテクチャ原則）は、確定次第 `CLAUDE.md` に昇格させます。
+
+---
+
+## 進め方プロトコル
+
+1. 本ファイルで合意 → Phase ごとに着手
+2. 決定・実装・検証で新情報が出た都度、該当チェックボックスの ✅ 化と追補ノートを**随時**反映する（Phase 完了を待たない）
+3. 安定した決定事項は適切なタイミングで `CLAUDE.md` に昇格
+4. 予期せぬ仕様変更は「ADR-00X」として本ファイル §2 に追記
 
 ---
 
@@ -64,13 +73,24 @@
 
 **方針**: クォート・セミコロンは Prettier に統一。ESLint は整形に関与させずロジック/型/TSDoc 構文のみ検査する。JS/TS/Vue script ブロック内はシングルクォート + セミコロン無し、Vue テンプレート属性は HTML 慣習通りダブルクォート維持。
 
-### 1.5 追加したい MCP（未実施）
+### 1.5 MCP 構成
 
-- [x] Cloudflare Developer Platform（既に有効）
-- [x] GitHub（既に有効）
-- [x] Context7（既に有効）
-- [ ] **Playwright MCP** — E2E デバッグ、スクリーンショット確認
-- [ ] **Chrome DevTools MCP** — Lighthouse / CWV の自動計測
+**user スコープ（全プロジェクト共有）**
+
+- [x] Cloudflare Developer Platform
+- [x] GitHub
+- [x] Context7
+
+**project スコープ（`.mcp.json` に集約、Phase 1 着手前にまとめて導入）**
+
+- [x] **Nuxt MCP**（`https://nuxt.com/mcp`）— docs / blog / deploy
+- [x] **Nuxt UI MCP**（`https://ui.nuxt.com/mcp`）— コンポーネント検索、Migration ガイド、アイコン検索
+- [x] **Nuxt Content MCP**（`https://content.nuxt.com/mcp`）— Content モジュール固有のドキュメント
+- [x] **Nuxt Studio MCP**（`https://nuxt.studio/mcp`）— Studio 連携時の情報参照
+- [x] **Playwright MCP**（Microsoft 公式 `@playwright/mcp`）— E2E デバッグ、スクリーンショット確認
+- [x] **Chrome DevTools MCP**（Google 公式 `chrome-devtools-mcp`）— パフォーマンストレース / CWV 自動計測
+
+**Tier 2（Phase 2 以降に評価）**: `nuxt-mcp` (antfu, Experimental) / `vite-plugin-vue-mcp` (webfansplz) — 自プロジェクトの auto-imports / components / Pinia state を LLM に introspection させる dev サーバー組み込み型。components が増えてから効くため Phase 1 では見送り。
 
 ---
 
@@ -145,19 +165,44 @@
 
 ### Phase 1 — デザイン基盤（1〜2 日）
 
-- [ ] Nuxt UI 4 導入、`main.css` に `@theme` でトークン定義
-- [ ] `useColorMode` + `<UColorModeSelect>` で light/dark/system
-- [ ] `app.vue` シェル（Header/Footer/Drawer）、reduce-motion 分岐
-- [ ] `useViewTransition` ラッパー作成
-- [ ] テスト: カラーモード切替スナップショット、axe-core baseline
+DESIGN.md が **Kintsugi Precision** として確定済み。実装パレットは **独自生成の `turquoise` / `gold` 11 段階スケール**。方針は `CLAUDE.md` §デザインシステムへ昇格済み。
+
+- [x] トークン層: `main.css` の `@theme` に OS ネイティブ sans stack・`--ui-container`・独自 `--color-turquoise-*` / `--color-gold-*` を定義、`:root`/`.dark` で `--ui-*` オーバーライド（DESIGN.md §1.3 の表どおり）、`.label-caps` ユーティリティ
+- [x] セマンティック層: `app.config.ts` で `ui.colors` 割当（primary=turquoise / secondary=gold / neutral=stone）。`tertiary` カスタムロール追加は見送り、Nuxt UI 既定セマンティックで必要十分と判断
+- [x] 形状言語: Sharp（`--ui-radius: 0`）、`Button` は `rounded-none` 固定。`Avatar` など本来円形が期待される要素は個別 slot で `rounded-full` 復帰
+- [x] App シェル: `app.vue` を Header/Main/Footer 構成に差し替え、`AppHeader.vue` に `UColorModeSelect` + モバイル Drawer
+- [x] `useViewTransition` composable（reduce-motion 時は startViewTransition を短絡、`window.matchMedia` 直叩きで `@vueuse/core` 直接依存を回避）
+- [x] テスト: `.dark` クラスの `--ui-bg` 切替 unit、`@axe-core/playwright` の e2e ベースライン、reduce-motion 時の VT 無効化
+- [x] サイト名を **naoki.dev** に確定。h1 は `naoki — System Engineer`（仮）。`titleTemplate: '%s — naoki.dev'` で WCAG 2.4.2 を全ページで担保
+
+**追補 (2026-04-23)**: Phase 1 検証完了。`pnpm format:check` / `pnpm lint` / `pnpm typecheck` / `pnpm test:unit` (4 tests) / `pnpm build` (Cloudflare 1.6 MB / gzip 480 kB) / `pnpm build:node` / `pnpm exec playwright test` (2/2 chromium) すべて ✅。
+
+**追補 (2026-04-24)**: デザインシステムを **Kintsugi Precision** として確定。(1) Light は Dark の鏡像として設計する二層アプローチ、(2) 独自 `turquoise` / `gold` 11 段階スケール、(3) `tertiary` ロールは追加せず Nuxt UI 既定セマンティックに収める、(4) 形状言語は Sharp（`--ui-radius: 0`）で統一。`CLAUDE.md` §デザインシステムへ昇格済み。
+
+**追補 (2026-04-23, devcontainer)**: Playwright E2E を devcontainer で動かすために下記を整備。
+
+- `.devcontainer/Dockerfile`: Chromium 用共有ライブラリ（`libglib2.0-0t64` ほか計 19 個）を apt で焼き込み。`/home/node/.cache/ms-playwright` を node 所有で事前作成し、named volume マウント時のパーミッション問題を回避
+- `.devcontainer/compose.yaml`: `playwright-cache` named volume を追加してブラウザバイナリ (~475 MiB) をリビルド横断で永続化
+- `playwright.config.ts` は chromium のみ。Firefox/WebKit 依存 (`libgtk-3-0t64` 等) は必要になった時点で追加
+
+**決定事項の CLAUDE.md 昇格候補**: Playwright は `pnpm exec playwright install chromium` 限定で運用（config が chromium のみ）。Phase 完了時に昇格を検討。
 
 ### Phase 2 — Content 基盤（1 日、各コレクション定義は後続指示）
 
-- [ ] `content.config.ts` 骨格（`defineContentConfig` + Zod、コレクション枠: `about` / `resume` / `blog` / `icon` / `tl`）
+- [x] `content.config.ts` 骨格（`defineContentConfig` + Zod、コレクション: `about` / `company` / `project` / `icon` / `blog`）
+- [x] 雛形 YAML / MD を `content/` 配下に配置（`about.yaml` / `company/01-example.yaml` / `project/01-example.yaml` / `icons.yaml` / `blog/hello-world.md`）
+- [x] `app/pages/resume.vue` で `project.stack` 横断集計ロジックを実装（`Map.groupBy` で `category:name` キー化 → `totalMonths` 合計 / 最高 `level` 採用）
 - [ ] `tl` コレクションは `type: 'data'` でスキーマ雛形（`date`, `kind`, `title` のみ。詳細は後続指示で確定）
 - [ ] MDC コンポーネントディレクトリ（`app/components/content/`）
 - [ ] **末尾 `.md` raw 表示ルート**（`server/routes/[...slug].md.get.ts`）
 - [ ] 共通 `[...slug].vue` でプレビュー
+
+**追補 (2026-04-24, Zod / Studio)**: 実装中に判明した要点を `CLAUDE.md` へ昇格済み（§Zod / §Nuxt Studio スキーマ対応）。要点は以下。
+
+- Zod は `zod` パッケージの root import だと v3 API にフォールバックするため、**`import { z } from 'zod/v4'` サブパス指定が必須**（`z.iso` / `z.int()` 等 v4 新 API が使えない）
+- Studio のフォーム UI は JSON Schema Draft-07 経由で自動マッピングされる。`z.record(...)` は**非対応**なので、カテゴリ横断の構造は `Object.fromEntries(SKILL_CATEGORIES.map(...))` で静的キーの `z.object` に展開する（`skillCategoryMap` ヘルパ）
+- 日付系 (`z.date()` / `z.iso.date()` / `z.iso.datetime()`) は Nuxt Content 上ではすべて**文字列**として渡る（Date 化されない）。表示は `new Date(str).toLocaleDateString('ja-JP')` で行う
+- `property().editor()` で Studio 用 UI 拡張（`'icon'` / `'media'` / `'textarea'` / `hidden`）。`@nuxt/content` から直接 import
 
 ### Phase 3a — Top / About（1〜2 日）
 
@@ -210,27 +255,21 @@
 
 ## 4. リスクと先回り対策
 
-| リスク                            | 対策                                                                                    |
-| --------------------------------- | --------------------------------------------------------------------------------------- |
-| Nuxt 5 未 GA 時の Rolldown 不使用 | Phase 0 から `compatibilityVersion: 5` で Vite 7 先行着手、GA 時に段階的切替（ADR-002） |
-| Workers で Node API 未対応        | `nodejs_compat` フラグ、画像変換は Cloudflare Images に委譲                             |
-| View Transition の SSR/CSR 差分   | SSR 無効、クライアント遷移のみ。reduce-motion で自動 off                                |
-| Studio がスキーマ変更に追従遅れ   | Phase 2 は空コレクションで骨格のみ、後続指示で拡張                                      |
-| Workers バンドルサイズ上限        | Nitro 静的化可能な箇所は `routeRules.prerender: true` を活用                            |
+| リスク                                                                                                                                                                                                                                | 対策                                                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Nuxt 5 未 GA 時の Rolldown 不使用                                                                                                                                                                                                     | Phase 0 から `compatibilityVersion: 5` で Vite 7 先行着手、GA 時に段階的切替（ADR-002）                                                                             |
+| Workers で Node API 未対応                                                                                                                                                                                                            | `nodejs_compat` フラグ、画像変換は Cloudflare Images に委譲                                                                                                         |
+| View Transition の SSR/CSR 差分                                                                                                                                                                                                       | SSR 無効、クライアント遷移のみ。reduce-motion で自動 off                                                                                                            |
+| Studio がスキーマ変更に追従遅れ                                                                                                                                                                                                       | Phase 2 は空コレクションで骨格のみ、後続指示で拡張                                                                                                                  |
+| Workers バンドルサイズ上限                                                                                                                                                                                                            | Nitro 静的化可能な箇所は `routeRules.prerender: true` を活用                                                                                                        |
+| Nuxt 4.3+ × `compatibilityVersion: 5` で `defineAppConfig` が nitro バンドルで未解決になる regression（[nuxt/nuxt#34142](https://github.com/nuxt/nuxt/issues/34142) / PR [#34157](https://github.com/nuxt/nuxt/pull/34157) 未マージ） | `app/app.config.ts` にローカル shim（`const defineAppConfig = <T>(c: T): T => c`）を入れて回避中（未 commit）。本体修正が出たら shim を削除し、回避 commit を避ける |
 
 ---
 
 ## 5. オープンな論点（要判断）
 
 - [x] **Biome vs Prettier** → **Prettier 採用決定**（2026-04-19）。`prettier-plugin-tailwindcss` によるクラス順整列を重視。Biome は不採用。
+- [x] **デザインシステム** → **Kintsugi Precision 採用決定**（2026-04-24 確定）。詳細は `DESIGN.md`、安定した決定事項は `CLAUDE.md` §デザインシステムに昇格済み。
 - [ ] **Timeline のカード種別**: `blog` / `resume` 以外に `note` / `milestone` を増やすか
 - [ ] **Nuxt Content コレクション定義**: ユーザー指示待ち（about / resume / blog / icon）
-
----
-
-## 6. 進め方プロトコル
-
-1. 本ファイルで合意 → Phase ごとに着手
-2. Phase 完了時に該当チェックボックスを ✅ に更新
-3. Phase 完了ごとに恒久的な決定事項を `CLAUDE.md` に昇格
-4. 予期せぬ仕様変更は「ADR-00X」として本ファイル §2 に追記
+- [ ] **Nuxt #34142 の修正取り込み**: `future.compatibilityVersion: 5` で prerender 時に `defineAppConfig is not defined` が出るリグレッション。ローカル shim で回避中（未ステージ）。[nuxt/nuxt#34142](https://github.com/nuxt/nuxt/issues/34142) / PR [#34157](https://github.com/nuxt/nuxt/pull/34157) がリリースに入ったら shim を削除する

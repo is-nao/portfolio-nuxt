@@ -26,7 +26,7 @@ logs
 # Claude Code ローカル状態 (settings.json は commit 対象)
 .claude/settings.local.json
 
-# Skills (managed by skills.sh)
+# Skills (managed by skills.sh; source of truth = skills-lock.json)
 .agents/skills/
 
 # pnpm

@@ -1,8 +1,18 @@
+<script setup lang="ts">
+import { ja } from '@nuxt/ui/locale'
+</script>
+
 <template>
-  <UApp>
+  <UApp :locale="ja">
     <NuxtRouteAnnouncer />
-    <div class="flex min-h-dvh items-center justify-center">
-      <h1 class="text-3xl font-bold">Hello Nuxt</h1>
-    </div>
+    <NuxtLoadingIndicator />
+
+    <AppHeader />
+
+    <UMain>
+      <NuxtPage />
+    </UMain>
+
+    <AppFooter />
   </UApp>
 </template>

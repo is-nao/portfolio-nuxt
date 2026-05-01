@@ -22,6 +22,26 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   jq \
   yq \
   python3 \
+  libglib2.0-0t64 \
+  libnspr4 \
+  libnss3 \
+  libatk1.0-0t64 \
+  libatk-bridge2.0-0t64 \
+  libdbus-1-3 \
+  libcups2t64 \
+  libxcb1 \
+  libxkbcommon0 \
+  libasound2t64 \
+  libgbm1 \
+  libx11-6 \
+  libxext6 \
+  libcairo2 \
+  libpango-1.0-0 \
+  libxcomposite1 \
+  libxdamage1 \
+  libxfixes3 \
+  libxrandr2 \
+  libatspi2.0-0t64 \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Ensure default node user has access to /usr/local/share
@@ -36,8 +56,8 @@ RUN mkdir /commandhistory \
 ENV DEVCONTAINER=true
 
 # Create workspace and config directories and set permissions
-RUN mkdir -p /workspace /home/node/.claude && \
-  chown -R node:node /workspace /home/node/.claude
+RUN mkdir -p /workspace /home/node/.claude /home/node/.cache/ms-playwright && \
+  chown -R node:node /workspace /home/node/.claude /home/node/.cache
 
 WORKDIR /workspace
 
@@ -71,3 +91,8 @@ ENV VISUAL=vim
 USER node
 RUN curl -fsSL https://claude.ai/install.sh | bash
 ENV PATH="/home/node/.local/bin:$PATH"
+
+# Install uv and Serena
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+RUN uv tool install -p 3.13 serena-agent@latest --prerelease=allow
+RUN serena init

@@ -1,0 +1,6 @@
+# https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+MD024:
+  siblings_only: true  # 異なるセクション内の同名見出しは許容
+MD033: false  # inline HTML — <kbd> / <sup> / <abbr> 等の使用を許容
+MD051: false  # link fragments — MDC の脚注が user-content-fn-* 形式で false positive になる
+MD060: false  # table column style — aligned table（手動整形）と compact スタイルの競合を回避
